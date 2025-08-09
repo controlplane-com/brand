@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Control Plane – Logo Downloads</title>
+  <style>
+    /* ---- Design tokens ---- */
+    :root {
+      --bg: #070b10;
+      --surface: #0c1219;
+      --muted: #8ea0b4;
+      --text: #e7edf4;
+      --brandA: #5aa8ff;
+      --brandB: #6a5cff;
+      --border: #1e2a39;
+      --chip: #0f1722;
+      --success: #46d17f;
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+      --maxw: 1200px;
+    }
+
+    /* ---- Base ---- */
+    html,body { height: 100%; }
+    body {
+      margin: 0; padding: 40px 28px; color: var(--text); background: radial-gradient(1200px 1200px at 10% -10%, rgba(90,168,255,.15), transparent 60%), radial-gradient(1000px 800px at 100% 0%, rgba(106,92,255,.12), transparent 50%), var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    .container { max-width: var(--maxw); margin: 0 auto; }
+
+    /* ---- Header ---- */
+    header { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px; }
+    h1 { font-size: 34px; letter-spacing: .2px; margin: 0; }
+    .hero {
+      background: linear-gradient(135deg, rgba(90,168,255,.15), rgba(106,92,255,.15));
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 6px);
+      padding: 18px 18px;
+      color: var(--muted);
+      box-shadow: var(--shadow);
+    }
+    .hero strong { color: var(--text); }
+
+    /* ---- Controls ---- */
+    .controls { display:flex; align-items:center; gap:14px; margin: 18px 0 10px; color: var(--muted); }
+    .toggle { display:flex; align-items:center; gap:8px; font-size: 12px; }
+    .toggle input { accent-color: var(--brandA); }
+    .repo a { color: var(--brandA); text-decoration: none; }
+
+    /* ---- Grid ---- */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+
+    /* ---- Card ---- */
+    .card { background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display:flex; flex-direction:column; gap:12px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+    .card::before { content:""; position:absolute; inset:0; pointer-events:none; background: linear-gradient(120deg, rgba(90,168,255,.2), rgba(106,92,255,.15) 30%, transparent 60%); opacity:.25; }
+    .card:hover { transform: translateY(-2px); transition: transform .18s ease; }
+
+    .thumb { background: #0b1118; border: 1px dashed #223041; border-radius: 12px; display:grid; place-items:center; height: 160px; }
+    .thumb img { max-width: 100%; max-height: 130px; object-fit: contain; image-rendering: -webkit-optimize-contrast; }
+
+    .name { font-weight: 700; font-size: 14px; letter-spacing: .2px; display:flex; align-items:center; gap:8px; }
+    .chips { display:flex; gap:6px; flex-wrap:wrap; }
+    .chip { background: var(--chip); border: 1px solid var(--border); padding: 2px 8px; border-radius: 999px; font-size: 11px; color: var(--muted); }
+
+    .links { display:grid; gap:6px; }
+    .linkline { background: #0b1118; border: 1px solid #1a2635; border-radius: 10px; display:flex; align-items:center; padding: 6px; gap:8px; }
+    .linkline code { flex:1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: transparent; color: #cfe3ff; }
+    .linkline a.view { text-decoration:none; font-weight:600; border:1px solid var(--border); border-radius: 8px; padding: 6px 8px; color: var(--text); background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); }
+
+    .actions { display:flex; gap:8px; flex-wrap:wrap; }
+    button { background: linear-gradient(180deg, #2a6bff, #2747ff); border: 0; border-radius: 10px; padding: 8px 12px; cursor: pointer; font-weight: 700; font-size: 12px; color: white; box-shadow: 0 6px 20px rgba(39,71,255,.3); }
+    button.secondary { background: linear-gradient(180deg, #1a2433, #131c28); color: #d7e3f0; border: 1px solid var(--border); box-shadow: none; }
+
+    footer { margin-top: 28px; color: var(--muted); font-size: 12px; }
+    code { background: #0f151c; padding: 2px 6px; border-radius: 6px; }
+
+    .fallback { display:none; width: 100%; box-sizing: border-box; background: #0f151c; border: 1px solid #263345; color: #d8e2ec; border-radius: 10px; padding: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 12px; }
+
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: #0f151c; border: 1px solid #2a384b; color: #e6edf3; padding: 10px 14px; border-radius: 10px; opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+    .toast.show { opacity: 1; }
+
+    details.tests { margin-top: 26px; background: #0f151c; border: 1px solid #223041; border-radius: 12px; padding: 12px; }
+    .testlog { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 12px; line-height: 1.5; white-space: pre-wrap; background: #0b0f14; border: 1px solid #1f2a36; border-radius: 10px; padding: 10px; }
+    .hidden { position: absolute; left: -9999px; top: -9999px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Control Plane – Logo Downloads</h1>
+    </header>
+
+    <div class="hero">
+      <div>Click a <strong>Copy</strong> button to grab the URL. If your browser blocks clipboard access, an input will appear with the URL pre‑selected (⌘/Ctrl+C).</div>
+    </div>
+
+    <div class="controls">
+      <label class="toggle"><input id="clipboardToggle" type="checkbox" /> Use fast Clipboard API when available</label>
+      <div class="repo">Direct file URLs (no GitHub UI). Source repo: <a href="https://github.com/controlplane-com/brand/tree/main/logo">controlplane-com/brand</a></div>
+    </div>
+
+    <div id="grid" class="grid"></div>
+
+    <details class="tests">
+      <summary><strong>Built-in tests</strong> (open to run)</summary>
+      <p>Verifies copy never throws under policy blocks and links are correct.</p>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 12px;">
+        <button id="runTests">Run tests</button>
+        <button id="clearTests" class="secondary">Clear</button>
+      </div>
+      <div id="testlog" class="testlog" aria-live="polite"></div>
+    </details>
+
+    <footer>
+      <p><strong>Notes</strong>: These links point to <code>raw.githubusercontent.com</code>. For CDN delivery, replace the base with <code>https://cdn.jsdelivr.net/gh/controlplane-com/brand@main/logo/…</code> or pin a tag like <code>@v1</code> for immutable versions.</p>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // ---- Config ----
+    const BASE_RAW = 'https://raw.githubusercontent.com/controlplane-com/brand/main/logo/';
+    const BASE_CDN = 'https://cdn.jsdelivr.net/gh/controlplane-com/brand@main/logo/';
+
+    const files = [
+      'Control_Plane_logo_full_dark.png',
+      'Control_Plane_logo_full_dark.svg',
+      'Control_Plane_logo_full_light.png',
+      'Control_Plane_logo_full_light.svg',
+      'Control_Plane_logo_mark.png',
+      'Control_Plane_logo_mark.svg',
+      'Control_Plane_logo_type_dark.png',
+      'Control_Plane_logo_type_dark.svg',
+      'Control_Plane_logo_type_light.png',
+      'Control_Plane_logo_type_light.svg'
+    ];
+
+    // ---- Utilities ----
+    const $grid = document.getElementById('grid');
+    const $toast = document.getElementById('toast');
+    const $testlog = document.getElementById('testlog');
+    const $toggle = document.getElementById('clipboardToggle');
+
+    function toast(msg) {
+      $toast.textContent = msg; $toast.classList.add('show');
+      clearTimeout(toast._t); toast._t = setTimeout(()=> $toast.classList.remove('show'), 1600);
+    }
+
+    // Detect iframe/sandbox and default toggle accordingly
+    const IN_IFRAME = (()=>{ try { return window.self !== window.top; } catch (_) { return true; } })();
+    const SECURE = window.isSecureContext === true;
+
+    // In sandboxed canvases, default to OFF to avoid NotAllowedError completely
+    $toggle.checked = (!IN_IFRAME && SECURE);
+
+    // Best-effort policy probe (won't throw if unsupported)
+    function policyAllowsClipboardWrite() {
+      try {
+        const pol = document.permissionsPolicy || document.featurePolicy;
+        if (pol && typeof pol.allowsFeature === 'function') {
+          return !!pol.allowsFeature('clipboard-write');
+        }
+      } catch(_) {}
+      return true; // unknown → optimistic; toggle still guards use
+    }
+
+    function parseChips(filename) {
+      const chips = [];
+      if (filename.endsWith('.svg')) chips.push('SVG');
+      if (filename.endsWith('.png')) chips.push('PNG');
+      if (/light/i.test(filename)) chips.push('Light');
+      if (/dark/i.test(filename)) chips.push('Dark');
+      if (/mark/i.test(filename)) chips.push('Mark');
+      if (/type/i.test(filename)) chips.push('Wordmark');
+      return chips;
+    }
+
+    async function safeCopy(text, card) {
+      const wantClipboard = $toggle.checked;
+
+      // Path 1: Modern Clipboard API (only when toggle enabled, secure, not sandboxed, and policy allows)
+      if (wantClipboard && SECURE && !IN_IFRAME && policyAllowsClipboardWrite() && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        try {
+          await navigator.clipboard.writeText(text); // under click gesture
+          toast('Copied to clipboard');
+          return { ok: true, method: 'clipboard' };
+        } catch (e) {
+          // swallow and fall through
+        }
+      }
+
+      // Path 2: Legacy execCommand fallback (under gesture)
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly','');
+        ta.className = 'hidden';
+        document.body.appendChild(ta);
+        ta.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (ok) { toast('Copied to clipboard'); return { ok: true, method: 'execCommand' }; }
+      } catch (_) { /* continue */ }
+
+      // Path 3: Manual fallback — reveal input with pre-selected text
+      let input = card.querySelector('input.fallback');
+      if (!input) {
+        input = document.createElement('input');
+        input.className = 'fallback';
+        input.readOnly = true; input.autocomplete = 'off'; input.spellcheck = false;
+        card.appendChild(input);
+      }
+      input.value = text;
+      input.style.display = 'block';
+      setTimeout(()=> { input.focus(); input.select(); }, 0);
+      toast('Copy blocked — press ⌘/Ctrl+C');
+      return { ok: false, method: 'manual' };
+    }
+
+    // ---- Render cards ----
+    files.forEach(name => {
+      const rawUrl = BASE_RAW + name;
+      const cdnUrl = BASE_CDN + name;
+
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      const img = document.createElement('img');
+      img.loading = 'lazy';
+      img.src = rawUrl; img.alt = name;
+      thumb.appendChild(img);
+
+      const title = document.createElement('div');
+      title.className = 'name'; title.textContent = name;
+
+      const chipWrap = document.createElement('div');
+      chipWrap.className = 'chips';
+      parseChips(name).forEach(label => {
+        const c = document.createElement('span'); c.className = 'chip'; c.textContent = label; chipWrap.appendChild(c);
+      });
+
+      const links = document.createElement('div');
+      links.className = 'links';
+
+      const line1 = document.createElement('div'); line1.className = 'linkline';
+      const code1 = document.createElement('code'); code1.textContent = rawUrl; const view1 = document.createElement('a'); view1.href = rawUrl; view1.target = '_blank'; view1.textContent = 'View'; view1.className = 'view';
+      line1.append(code1, view1);
+
+      const line2 = document.createElement('div'); line2.className = 'linkline';
+      const code2 = document.createElement('code'); code2.textContent = cdnUrl; const view2 = document.createElement('a'); view2.href = cdnUrl; view2.target = '_blank'; view2.textContent = 'View'; view2.className = 'view';
+      line2.append(code2, view2);
+
+      links.append(line1, line2);
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      const copyRaw = document.createElement('button');
+      copyRaw.textContent = 'Copy RAW URL';
+      copyRaw.addEventListener('click', () => safeCopy(rawUrl, card));
+
+      const copyCdn = document.createElement('button');
+      copyCdn.textContent = 'Copy CDN URL';
+      copyCdn.className = 'secondary';
+      copyCdn.addEventListener('click', () => safeCopy(cdnUrl, card));
+
+      actions.append(copyRaw, copyCdn);
+      card.append(thumb, title, chipWrap, links, actions);
+      $grid.appendChild(card);
+    });
+
+    // ---- Tests (unchanged, expanded earlier) ----
+    function log(line) { $testlog.textContent += (line + '\n'); }
+    function clearLog() { $testlog.textContent = ''; }
+
+    async function runTests() {
+      clearLog();
+      log('Running tests...');
+
+      // Test 1: safeCopy never throws even if Clipboard API is blocked
+      try {
+        const dummy = document.createElement('div');
+        const res = await safeCopy('https://example.com/test1', dummy);
+        log(`Test 1: safeCopy returned without throw → PASS (method=${res.method})`);
+      } catch (e) {
+        log('Test 1: safeCopy threw → FAIL: ' + e);
+      }
+
+      // Test 2: Manual fallback shows input when copying is blocked
+      const card2 = document.createElement('div');
+      const r2 = await safeCopy('https://example.com/test2', card2);
+      const shown = !!card2.querySelector('input.fallback') && card2.querySelector('input.fallback').style.display !== 'none';
+      if (!r2.ok && shown) log('Test 2: manual fallback input shown → PASS'); else log('Test 2: manual fallback not shown as expected → ' + (r2.ok ? 'SKIPPED (copy succeeded)' : 'FAIL'));
+
+      // Test 3: All links use correct domains
+      const anchors = [];
+      document.querySelectorAll('.links .linkline').forEach(ll => {
+        const c = ll.querySelector('code').textContent; // we still expose anchors in View buttons too
+        anchors.push(c);
+      });
+      const okDomains = anchors.every(h => h.startsWith('https://raw.githubusercontent.com/') || h.startsWith('https://cdn.jsdelivr.net/gh/'));
+      log(`Test 3: link domains correct → ${okDomains ? 'PASS' : 'FAIL'}`);
+
+      // Test 4: There is a copy button per URL
+      const cards = Array.from(document.querySelectorAll('.card'));
+      const buttonsOK = cards.every(c => c.querySelectorAll('button').length >= 2);
+      log(`Test 4: copy buttons present → ${buttonsOK ? 'PASS' : 'FAIL'}`);
+
+      // Test 5: Thumbnails have src set
+      const imgs = Array.from(document.querySelectorAll('.thumb img'));
+      const srcOK = imgs.every(img => typeof img.src === 'string' && img.src.length > 0);
+      log(`Test 5: thumbnails have src → ${srcOK ? 'PASS' : 'FAIL'}`);
+
+      // Test 6: Toggle OFF disables Clipboard API path (should not attempt writeText)
+      const prev = $toggle.checked; $toggle.checked = false;
+      const card3 = document.createElement('div');
+      const r3 = await safeCopy('https://example.com/test3', card3);
+      if (r3.method !== 'clipboard') log('Test 6: toggle off bypassed clipboard → PASS'); else log('Test 6: toggle off used clipboard → FAIL');
+      $toggle.checked = prev;
+
+      log('Done.');
+    }
+
+    document.getElementById('runTests').addEventListener('click', runTests);
+    document.getElementById('clearTests').addEventListener('click', () => { clearLog(); toast('Cleared'); });
+
+    // No clipboard writes at load — everything runs only under explicit user gesture.
+  </script>
+</body>
+</html>
+
